@@ -4,10 +4,10 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Program.fs" />
     <Compile Include="Domain.fs" />
     <Compile Include="Operations.fs" />
     <Compile Include="Auditing.fs" />
+    <Compile Include="Program.fs" />
     <None Include="Scratchpad.fsx" />
   </ItemGroup>
 </Project>
