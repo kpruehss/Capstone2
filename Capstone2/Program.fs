@@ -37,17 +37,12 @@ let main argv =
 
         if action = "x" then Environment.Exit 0
 
-        let amount =
-            Console.Write "Amount: "
-            Console.ReadLine() |> Decimal.Parse
+        let processAction =
+            function
+            | "d" -> account |> depositWithAudit (getAmount ())
+            | "w" -> account |> withdrawWithAudit (getAmount ())
+            | _ -> account
 
-        // Mutate the account value via an expression
-        account <-
-            if action = "d" then
-                account |> depositWithAudit amount
-            elif action = "w" then
-                account |> withdrawWithAudit amount
-            else
-                account
+        account <- processAction action
 
     0 // return an integer exit code

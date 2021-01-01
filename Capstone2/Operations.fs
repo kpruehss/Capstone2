@@ -26,3 +26,7 @@ let auditAs operationName audit operation amount account =
         audit account (sprintf $"{DateTime.UtcNow}: Transaction accepted! Balance is now ${account.Balance}")
 
     updatedAccount
+
+let getAmount () =
+    Console.Write "Amount: "
+    Console.ReadLine() |> Decimal.Parse
