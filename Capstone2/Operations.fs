@@ -15,18 +15,17 @@ let withdraw amount account =
         account
 
 let auditAs operationName audit operation amount account =
-    audit account (sprintf $"{DateTime.UtcNow}: Performing a {operationName} for ${amount}...")
+    let audit =
+        audit account.AccountId account.Owner.Name
 
+    audit (sprintf $"{DateTime.UtcNow}: Performing a {operationName} for ${amount}...")
     let updatedAccount = operation amount account
+
     let accountIsUnchanged = (updatedAccount = account)
 
     if accountIsUnchanged then
-        audit account (sprintf $"{DateTime.UtcNow}: Insufficient Funds...Transaction rejected!")
+        audit (sprintf $"{DateTime.UtcNow}: Transaction rejected!")
     else
-        audit account (sprintf $"{DateTime.UtcNow}: Transaction accepted! Balance is now ${account.Balance}")
+        audit (sprintf $"{DateTime.UtcNow}: Transaction accepted! Balance is now ${updatedAccount.Balance}")
 
     updatedAccount
-
-let getAmount () =
-    Console.Write "Amount: "
-    Console.ReadLine() |> Decimal.Parse

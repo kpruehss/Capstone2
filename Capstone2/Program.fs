@@ -7,42 +7,27 @@ open Capstone2.Operations
 
 [<EntryPoint>]
 let main argv =
-    let mutable account =
-        let customer =
-            Console.Write "Please enter your name: "
-            let customerName = Console.ReadLine()
-            { Name = customerName }
-
-        Console.Write "Enter opening balance: "
-        let balance = Console.ReadLine() |> Decimal.Parse
-
-        { AccountId = Guid.NewGuid()
-          Owner = customer
-          Balance = balance }
+    let name =
+        Console.Write "Please enter your name: "
+        Console.ReadLine()
 
     let withdrawWithAudit =
-        withdraw
-        |> auditAs "withdraw" Auditing.fileSystemAudit
+        auditAs "withdraw" Auditing.composedLogger withdraw
 
     let depositWithAudit =
-        deposit
-        |> auditAs "deposit" Auditing.fileSystemAudit
+        auditAs "deposit" Auditing.composedLogger deposit
 
-    while true do
-        let action =
-            Console.WriteLine()
-            printfn $"Current balance is ${account.Balance}"
-            Console.Write "(d)eposit, (w)ithdraw or e(x)it: "
-            Console.ReadLine()
+    let openingAccount =
+        { Owner = { Name = name }
+          Balance = 0M
+          AccountId = Guid.Empty }
 
-        if action = "x" then Environment.Exit 0
+    let closingAccount =
+        // Fill in the main loop here...
+        openingAccount
 
-        let processAction =
-            function
-            | "d" -> account |> depositWithAudit (getAmount ())
-            | "w" -> account |> withdrawWithAudit (getAmount ())
-            | _ -> account
-
-        account <- processAction action
+    Console.Clear()
+    printfn $"Closing Balance:\r\n {closingAccount}"
+    Console.ReadKey() |> ignore
 
     0 // return an integer exit code
