@@ -8,8 +8,8 @@
     <Compile Include="FileRepository.fs" />
     <Compile Include="Operations.fs" />
     <Compile Include="Auditing.fs" />
-    <Compile Include="Program.fs" />
     <Compile Include="Capstone3Scratch.fsx" />
+    <Compile Include="Program.fs" />
     <None Include="Scratchpad.fsx" />
   </ItemGroup>
 </Project>
